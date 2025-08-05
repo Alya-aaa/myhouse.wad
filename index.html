@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Steam - BASILISK</title>
+  <style>
+    /* Reset */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #1b2838;
+      color: #c7d5e0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Bandeau Steam */
+    header {
+      width: 100%;
+      background-color: #171a21;
+      padding: 15px 30px;
+      display: flex;
+      align-items: center;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.8);
+      user-select: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+    }
+
+    header img {
+      height: 36px;
+      margin-right: 15px;
+    }
+
+    header h1 {
+      font-weight: 700;
+      font-size: 1.8rem;
+      color: #66c0f4;
+      letter-spacing: 2px;
+    }
+
+    main {
+      margin-top: 90px;
+      width: 350px;
+      background-color: #2a475e;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 0 20px #0008 inset;
+      text-align: center;
+    }
+
+    .game-img {
+      width: 100%;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px #0008;
+      user-select: none;
+    }
+
+    h2 {
+      margin-top: 15px;
+      font-size: 1.6rem;
+      color: #fff;
+    }
+
+    .game-info {
+      margin: 10px 0 20px;
+      font-size: 0.9rem;
+      line-height: 1.4;
+      color: #c7d5e0cc;
+      user-select: text;
+    }
+
+    /* Bouton téléchargement */
+    .download-btn {
+      background-color: #66c0f4;
+      border: none;
+      padding: 12px 25px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: #171a21;
+      border-radius: 6px;
+      cursor: pointer;
+      box-shadow: 0 4px #4a8ad4;
+      transition: background-color 0.3s ease;
+      user-select: none;
+    }
+
+    .download-btn:hover:not(:disabled) {
+      background-color: #52a5e8;
+    }
+
+    .download-btn:active:not(:disabled) {
+      box-shadow: none;
+      transform: translateY(4px);
+    }
+
+    .download-btn:disabled {
+      background-color: #4a7bb8;
+      cursor: default;
+      box-shadow: none;
+      color: #b0c8e3;
+    }
+
+    /* Barre de progression */
+    .progress-container {
+      width: 100%;
+      background-color: #0b1a2b;
+      border-radius: 6px;
+      overflow: hidden;
+      margin-top: 15px;
+      height: 20px;
+      box-shadow: inset 0 1px 3px rgba(255,255,255,0.1);
+      user-select: none;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background-color: #66c0f4;
+      transition: width 0.2s ease;
+    }
+
+    /* Glitch effect */
+    @keyframes glitch {
+      0% {
+        clip: rect(0, 9999px, 0, 0);
+        transform: translate(0);
+      }
+      20% {
+        clip: rect(10px, 9999px, 50px, 0);
+        transform: translate(-5px, -3px);
+      }
+      40% {
+        clip: rect(40px, 9999px, 85px, 0);
+        transform: translate(5px, 3px);
+      }
+      60% {
+        clip: rect(20px, 9999px, 70px, 0);
+        transform: translate(-3px, 2px);
+      }
+      80% {
+        clip: rect(0, 9999px, 100px, 0);
+        transform: translate(3px, -2px);
+      }
+      100% {
+        clip: rect(0, 9999px, 0, 0);
+        transform: translate(0);
+      }
+    }
+
+    .glitch-effect {
+      animation: glitch 0.1s infinite;
+      filter: hue-rotate(20deg) brightness(1.2);
+    }
+
+    /* Message cliquable */
+    #final-message {
+      display: none;
+      margin-top: 30px;
+      background-color: #66c0f4;
+      color: #171a21;
+      padding: 15px 25px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 1.2rem;
+      cursor: pointer;
+      box-shadow: 0 5px 15px #66c0f4bb;
+      user-select: none;
+      transition: background-color 0.3s ease;
+    }
+
+    #final-message:hover {
+      background-color: #52a5e8;
+      box-shadow: 0 6px 20px #52a5e8cc;
+    }
+
+  </style>
+</head>
+<body>
+
+  <header>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/8/83/Steam_icon_logo.svg" alt="Steam Logo" />
+    <h1>STEAM</h1>
+  </header>
+
+  <main>
+    <img 
+      class="game-img" 
+      src="https://upload.wikimedia.org/wikipedia/en/5/57/Doom_cover_art.jpg" 
+      alt="Basilisk Game Cover" 
+      draggable="false"
+    />
+    <h2>BASILISK</h2>
+    <div class="game-info">
+      <p><strong>Genre :</strong> FPS / Action / Retro</p>
+      <p><strong>Développeur :</strong> Id Software</p>
+      <p><strong>Description :</strong> BASILISK est un hommage moderne au classique DOOM, combinant un gameplay intense avec des graphismes rétro et une bande-son immersive.</p>
+      <p><strong>Plateformes :</strong> Windows, Mac, Linux</p>
+    </div>
+
+    <button class="download-btn" id="downloadBtn">Télécharger</button>
+
+    <div class="progress-container" aria-label="Progression du téléchargement">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <div id="final-message" tabindex="0" role="button" aria-pressed="false">
+      Cliquez ici pour découvrir une surprise !
+    </div>
+  </main>
+
+  <script>
+    const downloadBtn = document.getElementById('downloadBtn');
+    const progressBar = document.getElementById('progressBar');
+    const finalMessage = document.getElementById('final-message');
+    let progress = 0;
+    let glitchInterval = null;
+
+    function startGlitch() {
+      document.body.classList.add('glitch-effect');
+    }
+
+    function stopGlitch() {
+      document.body.classList.remove('glitch-effect');
+    }
+
+    function simulateDownload() {
+      downloadBtn.disabled = true;
+      const downloadSpeed = 20; // ms per update
+      const increment = 1; // % per update
+
+      const interval = setInterval(() => {
+        progress += increment;
+        if (progress > 100) progress = 100;
+        progressBar.style.width = progress + '%';
+
+        if (progress === 100) {
+          clearInterval(interval);
+
+          // Start glitch for 2 seconds (rapid)
+          let glitchCount = 0;
+          glitchInterval = setInterval(() => {
+            if (glitchCount >= 20) {
+              clearInterval(glitchInterval);
+              stopGlitch();
+
+              // Show message after glitch ends
+              setTimeout(() => {
+                finalMessage.style.display = 'block';
+                finalMessage.focus();
+              }, 500);
+            } else {
+              if (glitchCount % 2 === 0) {
+                startGlitch();
+              } else {
+                stopGlitch();
+              }
+              glitchCount++;
+            }
+          }, 100);
+        }
+      }, downloadSpeed);
+    }
+
+    downloadBtn.addEventListener('click', () => {
+      simulateDownload();
+    });
+
+    // Click on the message redirects to the YouTube link
+    finalMessage.addEventListener('click', () => {
+      window.open('https://youtu.be/e59OqORcTC0?si=y4_hrLXv4TMPOlvv', '_blank', 'noopener');
+    });
+
+    // Also allow Enter key to activate the link for accessibility
+    finalMessage.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        finalMessage.click();
+      }
+    });
+  </script>
+</body>
+</html>
